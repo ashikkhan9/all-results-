@@ -9,7 +9,6 @@
 <meta name="theme-color" content="#1e3a8a">
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* তোমার আগের সব সিএসএস (CSS) ঠিক রাখা হয়েছে, শুধুFetched HTML এর জন্য একটু স্টাইল যোগ করা হলো */
 :root{ --navy:#0b1f4d; --royal:#1e4fd8; --royal-2:#3b6cf0; --cyan:#22d3ee; --bg:#eef3fb; --text:#0f1b33; --muted:#52627f; --white:#ffffff; --glass:rgba(255,255,255,.62); --glass-border:rgba(255,255,255,.75); --shadow:0 18px 40px -18px rgba(11,31,77,.28); --err:#c2410c; --ok:#047857; --warn:#b45309; --r-lg:24px; --r-md:16px; --r-sm:12px; --font:'Hind Siliguri',system-ui,sans-serif; }
 [data-theme="dark"]{ --bg:#060f26; --text:#e8eefc; --muted:#9fb0cf; --white:#0c1a3a; --glass:rgba(18,34,70,.6); --glass-border:rgba(148,190,255,.18); --shadow:0 18px 40px -18px rgba(0,0,0,.6); }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -41,8 +40,6 @@ section{padding:28px 0}
 .banner.live{background:rgba(4,120,87,.12);color:var(--ok);border:1px solid rgba(4,120,87,.3)}
 .banner.error{background:rgba(194,65,12,.1);color:var(--err);border:1px solid rgba(194,65,12,.3)}
 .banner.warn{background:rgba(180,83,9,.12);color:var(--warn);border:1px solid rgba(180,83,9,.3)}
-
-/* নতুন যোগ করা স্টাইল: সরকারি সাইটের টেবিল ঠিক করার জন্য */
 .fetched-content table { width: 100%; border-collapse: collapse; margin-top: 15px; }
 .fetched-content th, .fetched-content td { padding: 10px; border: 1px solid var(--glass-border); text-align: left; }
 .fetched-content th { background: rgba(59,108,240,.1); }
@@ -60,12 +57,11 @@ iframe { width: 100%; height: 600px; border: none; border-radius: 12px; backgrou
 <main class="container">
   <section class="hero">
     <h1>আপনার ফলাফল দেখুন <span>সহজেই</span></h1>
-    <p>সার্ভার ডাউন? কোনো সমস্যা নেই! আমাদের বিকল্প সিস্টেমে চেষ্টা করুন।</p>
+    <p>সার্ভার ডাউন? কোনো সমস্যা নেই! আমাদের বিকল্প সিস্টেমে সবার আগে ট্রাই করুন।</p>
   </section>
 
   <section id="form-section">
     <div class="glass form-card" id="result-form">
-      <!-- নোটিশ এরিয়া (রিমোট কনফিগ থেকে আসবে) -->
       <div id="dynamic-alert" style="display:none; margin-bottom:15px;" class="banner warn"></div>
 
       <form id="resultForm">
@@ -121,38 +117,35 @@ iframe { width: 100%; height: 600px; border: none; border-radius: 12px; backgrou
 
     <div class="glass result" id="result-area"></div>
   </section>
+  
+  <footer style="text-align: center; padding: 30px; margin-top: 40px; color: var(--muted); font-size: 0.9rem;">
+    <p>এটি একটি স্বতন্ত্র ফলাফল-সহায়ক প্ল্যাটফর্ম। এটি কোনো সরকারি ওয়েবসাইট নয়।</p>
+  </footer>
 </main>
 
 <script>
 (function () {
   "use strict";
 
-  // ==========================================
-  // ১. রিমোট কনফিগারেশন সেটআপ (তোমার কন্ট্রোল প্যানেল)
-  // ==========================================
-  
-  // এই JSON ফাইলটি তুমি GitHub Gist বা Firebase এ হোস্ট করে লিংকটা এখানে বসাবে।
-  // ফাইল আপডেট করলেই রিয়েল-টাইমে ওয়েবসাইটের লজিক চেঞ্জ হয়ে যাবে।
-  const REMOTE_CONFIG_URL = "https://raw.githubusercontent.com/ashikkhan9/your-repo/main/config.json"; // <-- এখানে তোমার JSON লিংক বসাবে
+  // তোমার গিটহাবের রিমোট কনফিগ লিংক এখানে অ্যাড করা হয়েছে 
+  const REMOTE_CONFIG_URL = "https://raw.githubusercontent.com/ashikkhan9/all-results-/refs/heads/main/config.json";
 
-  // ডিফল্ট কনফিগারেশন (যদি Remote ফাইল লোড না হয়)
   let APP_CONFIG = {
-    mode: "api", // 'api' অথবা 'iframe'
+    mode: "api",
     target_url: "http://www.educationboardresults.gov.bd/result.php", 
-    proxy_url: "https://my-proxy.workers.dev/?url=", // <-- এখানে তোমার Cloudflare Worker লিংক দিবে
-    selector: "table", // সরকারি সাইটের যে টেবিলটা কাটতে চাও তার CSS Class/ID
-    alert_message: "" // ইমার্জেন্সি নোটিশ
+    proxy_url: "https://corsproxy.io/?url=", 
+    selector: "table", 
+    alert_message: "" 
   };
 
-  // পেজ লোড হলেই কনফিগ ফেচ করবে
   async function loadRemoteConfig() {
     try {
-      const res = await fetch(REMOTE_CONFIG_URL + "?v=" + new Date().getTime()); // Cache busting
+      // ?v= টাইমস্ট্যাম্প দেওয়া হয়েছে যেন ব্রাউজার ক্যাশ না ধরে রাখে
+      const res = await fetch(REMOTE_CONFIG_URL + "?v=" + new Date().getTime()); 
       if (res.ok) {
         const data = await res.json();
         APP_CONFIG = { ...APP_CONFIG, ...data };
         
-        // যদি কনফিগে কোনো ইমার্জেন্সি এলার্ট থাকে
         if (APP_CONFIG.alert_message) {
             const alertBox = document.getElementById("dynamic-alert");
             alertBox.textContent = APP_CONFIG.alert_message;
@@ -163,10 +156,6 @@ iframe { width: 100%; height: 600px; border: none; border-radius: 12px; backgrou
   }
   loadRemoteConfig();
 
-
-  // ==========================================
-  // ২. কোর লজিক ও ডেটা ফেচিং
-  // ==========================================
   const form = document.getElementById("resultForm");
   const submitBtn = document.getElementById("submitBtn");
   const resultArea = document.getElementById("result-area");
@@ -192,22 +181,21 @@ iframe { width: 100%; height: 600px; border: none; border-radius: 12px; backgrou
     resultArea.innerHTML = "";
     resultArea.style.display = "block";
 
-    // --- ইমার্জেন্সি Iframe ফলব্যাক ---
+    // --- Iframe মেথড ---
     if (APP_CONFIG.mode === "iframe") {
        resultArea.innerHTML = `
-         <div class="banner warn">সার্ভারে অতিরিক্ত চাপের কারণে সরকারি পোর্টালটি সরাসরি নিচে লোড করা হলো। এখানে ফর্ম পূরণ করুন।</div>
+         <div class="banner warn">সার্ভারে অতিরিক্ত চাপের কারণে সরকারি পোর্টালটি সরাসরি নিচে লোড করা হলো। এখানে ফর্ম পূরণ করে ফলাফল দেখুন।</div>
          <iframe src="${APP_CONFIG.target_url}"></iframe>
        `;
        setLoading(false);
        return;
     }
 
-    // --- API / Cloudflare Proxy মেথড ---
+    // --- API / Proxy মেথড ---
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 12000); // ১২ সেকেন্ড পর টাইমআউট
+    const timer = setTimeout(() => controller.abort(), 12000); 
 
     try {
-      // সরকারি সাইটের মেথড অনুযায়ী POST ডেটা রেডি করা (eboardresults এর প্যারামিটার অনুযায়ী)
       const formData = new URLSearchParams();
       formData.append('exam', data.exam);
       formData.append('year', data.year);
@@ -227,10 +215,9 @@ iframe { width: 100%; height: 600px; border: none; border-radius: 12px; backgrou
       if (!res.ok) throw new Error("ServerError");
       
       const htmlText = await res.text();
-      
-      // HTML পার্স করে শুধু রেজাল্ট টেবিলটা কাটা
       const parser = new DOMParser();
       const doc = parser.parseFromString(htmlText, 'text/html');
+      
       const resultTable = doc.querySelector(APP_CONFIG.selector);
 
       if (!resultTable) throw new Error("NoData");
@@ -242,11 +229,10 @@ iframe { width: 100%; height: 600px; border: none; border-radius: 12px; backgrou
       `;
 
     } catch (err) {
-      // ৩. সার্ভার ডেড হলে মার্কেটিং ট্রিক (ইউজারকে ওয়েট করানো)
       if (err.name === "AbortError" || err.message === "ServerError") {
         resultArea.innerHTML = `<div class="banner error">⚠️ <b>সরকারি সার্ভার সাময়িকভাবে ডাউন আছে!</b> লাখ লাখ মানুষ একসাথে ট্রাই করায় সার্ভার ক্র্যাশ করেছে। অনুগ্রহ করে ৩-৪ মিনিট পর আবার <b>'ফলাফল খুঁজুন'</b> বাটনে ক্লিক করুন।</div>`;
       } else {
-        resultArea.innerHTML = `<div class="banner error">❌ রোল বা রেজিস্ট্রেশন ভুল আছে অথবা সরকারি সার্ভার ক্যাপচা বসিয়েছে। আবার চেষ্টা করুন।</div>`;
+        resultArea.innerHTML = `<div class="banner error">❌ রোল বা রেজিস্ট্রেশন ভুল আছে অথবা সরকারি সার্ভার রেজাল্ট দেখাচ্ছে না। আবার চেষ্টা করুন।</div>`;
       }
     } finally {
       clearTimeout(timer);
