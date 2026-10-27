@@ -1,246 +1,261 @@
 <!DOCTYPE html>
-<html lang="bn" data-theme="light">
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>রেজাল্ট বন্ধু — পরীক্ষার ফলাফল দেখুন</title>
-<meta name="description" content="HSC, SSC, JSC ফলাফল দেখার সহজ নির্দেশিকা।">
-<meta property="og:title" content="রেজাল্ট বন্ধু — পরীক্ষার ফলাফল দেখুন">
-<meta name="theme-color" content="#1e3a8a">
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>ওয়েব ভিত্তিক ফলাফল প্রকাশ সিস্টেম</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{ --navy:#0b1f4d; --royal:#1e4fd8; --royal-2:#3b6cf0; --cyan:#22d3ee; --bg:#eef3fb; --text:#0f1b33; --muted:#52627f; --white:#ffffff; --glass:rgba(255,255,255,.62); --glass-border:rgba(255,255,255,.75); --shadow:0 18px 40px -18px rgba(11,31,77,.28); --err:#c2410c; --ok:#047857; --warn:#b45309; --r-lg:24px; --r-md:16px; --r-sm:12px; --font:'Hind Siliguri',system-ui,sans-serif; }
-[data-theme="dark"]{ --bg:#060f26; --text:#e8eefc; --muted:#9fb0cf; --white:#0c1a3a; --glass:rgba(18,34,70,.6); --glass-border:rgba(148,190,255,.18); --shadow:0 18px 40px -18px rgba(0,0,0,.6); }
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:var(--font);color:var(--text);background:var(--bg);line-height:1.7;min-height:100vh; background-image:radial-gradient(900px 500px at 10% -10%,rgba(59,108,240,.22),transparent 60%),radial-gradient(700px 500px at 110% 10%,rgba(34,211,238,.14),transparent 60%);background-attachment:fixed;}
-.container{width:min(1120px,100% - 32px);margin-inline:auto}
-.glass{background:var(--glass);backdrop-filter:blur(18px);border:1px solid var(--glass-border);border-radius:var(--r-lg);box-shadow:var(--shadow);overflow:hidden;}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:12px 22px;border-radius:var(--r-md);font-weight:600;cursor:pointer;background:linear-gradient(135deg,var(--royal),var(--navy));color:#fff;border:none;}
-.btn:disabled{opacity:.55;cursor:not-allowed}
-.btn-ghost{background:var(--glass);color:var(--text);border:1px solid var(--glass-border);box-shadow:none}
-.btn .spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;display:none}
-.btn.loading .spinner{display:inline-block}
-@keyframes spin{to{transform:rotate(360deg)}}
-.header{padding:12px 0;position:sticky;top:0;z-index:50;}
-.hero{padding:40px 0;}
-.hero h1{font-size:clamp(1.9rem,4.2vw,3rem);font-weight:700;}
-.hero h1 span{background:linear-gradient(120deg,var(--royal),var(--cyan));-webkit-background-clip:text;color:transparent}
-section{padding:28px 0}
-.form-card{padding:clamp(20px,4vw,36px)}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 20px}
-.field{display:flex;flex-direction:column;gap:6px}
-.field label{font-weight:600}
-.field input,.field select{min-height:50px;padding:12px 14px;border-radius:var(--r-sm);border:1px solid rgba(59,108,240,.22);background:rgba(255,255,255,.7);width:100%;}
-[data-theme="dark"] .field input,[data-theme="dark"] .field select{background:rgba(6,15,38,.6)}
-.form-actions{display:flex;gap:12px;margin-top:24px;}
-#result-area:empty{display:none}
-.result{margin-top:26px;padding:clamp(20px,4vw,34px)}
-.banner{padding:12px 14px;border-radius:var(--r-sm);margin-bottom:18px;font-weight:500}
-.banner.live{background:rgba(4,120,87,.12);color:var(--ok);border:1px solid rgba(4,120,87,.3)}
-.banner.error{background:rgba(194,65,12,.1);color:var(--err);border:1px solid rgba(194,65,12,.3)}
-.banner.warn{background:rgba(180,83,9,.12);color:var(--warn);border:1px solid rgba(180,83,9,.3)}
-.fetched-content table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-.fetched-content th, .fetched-content td { padding: 10px; border: 1px solid var(--glass-border); text-align: left; }
-.fetched-content th { background: rgba(59,108,240,.1); }
-iframe { width: 100%; height: 600px; border: none; border-radius: 12px; background: #fff; }
+  body {
+    margin: 0;
+    font-family: 'Hind Siliguri', sans-serif;
+    /* Liquid background */
+    background: linear-gradient(45deg, #0b1f4d, #1e4fd8, #22d3ee, #0b1f4d);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  @keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .container {
+    width: 100%;
+    max-width: 950px;
+    /* Liquid Glass effect */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .header {
+    /* Glassy Green Header */
+    background: rgba(15, 157, 88, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    color: white;
+    text-align: center;
+  }
+
+  .header .logo {
+    width: 70px;
+    height: 70px;
+    /* বাংলাদেশ সরকারের অফিশিয়াল লোগো */
+    background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Government_Seal_of_Bangladesh.svg/1200px-Government_Seal_of_Bangladesh.svg.png') no-repeat center center;
+    background-size: contain;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-right: 20px;
+  }
+
+  .header-text {
+    flex-grow: 1;
+  }
+
+  .header-text h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+
+  .header-text h2 {
+    margin: 8px 0 0;
+    font-size: 15px;
+    font-weight: 400;
+  }
+
+  .form-body {
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .instruction {
+    font-size: 15px;
+    color: #ffffff;
+    margin-bottom: 30px;
+    font-weight: 500;
+  }
+
+  .form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .form-group label {
+    width: 35%;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .form-group .red-text {
+    color: #ff6b6b;
+  }
+
+  .form-group select {
+    width: 65%;
+    padding: 12px 15px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    font-size: 15px;
+    font-family: 'Hind Siliguri', sans-serif;
+    outline: none;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .form-group select option {
+    background: #0b1f4d;
+    color: #ffffff;
+  }
+
+  .form-group select:focus {
+    border-color: #22d3ee;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 10px rgba(34, 211, 238, 0.3);
+  }
+
+  .footer {
+    background: rgba(0, 0, 0, 0.25);
+    padding: 20px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 13px;
+    line-height: 1.8;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+  }
+  
+  .footer i {
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    .form-group {
+      flex-direction: column;
+      align-items: flex-start;
+      background: transparent;
+      padding: 0;
+      border: none;
+    }
+    .form-group label, .form-group select {
+      width: 100%;
+    }
+    .form-group label {
+      margin-bottom: 10px;
+    }
+    .header {
+      flex-direction: column;
+    }
+    .header .logo {
+      margin-right: 0;
+      margin-bottom: 15px;
+    }
+    .header-text h1 {
+      font-size: 18px;
+    }
+    .header-text h2 {
+      font-size: 13px;
+    }
+  }
 </style>
 </head>
 <body>
 
-<header class="header">
-  <div class="container">
-    <h2 style="font-weight:700; color:var(--text);">🎓 রেজাল্ট বন্ধু</h2>
+<div class="container">
+  <div class="header">
+    <div class="logo"></div>
+    <div class="header-text">
+      <h1>শিক্ষা বোর্ডের ওয়েব ভিত্তিক ফলাফল প্রকাশ সিস্টেম</h1>
+      <h2>জেএসসি/জেডিসি/এসএসসি/দাখিল/এইচএসসি/আলিম এবং সমমান পরীক্ষা</h2>
+    </div>
   </div>
-</header>
 
-<main class="container">
-  <section class="hero">
-    <h1>আপনার ফলাফল দেখুন <span>সহজেই</span></h1>
-    <p>সার্ভার ডাউন? কোনো সমস্যা নেই! আমাদের বিকল্প সিস্টেমে সবার আগে ট্রাই করুন।</p>
-  </section>
-
-  <section id="form-section">
-    <div class="glass form-card" id="result-form">
-      <div id="dynamic-alert" style="display:none; margin-bottom:15px;" class="banner warn"></div>
-
-      <form id="resultForm">
-        <div class="form-grid">
-          <div class="field">
-            <label for="exam">পরীক্ষার নাম</label>
-            <select id="exam" required>
-              <option value="hsc">HSC/Alim/Equivalent</option>
-              <option value="ssc">SSC/Dakhil/Equivalent</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="year">বছর</label>
-            <select id="year" required>
-              <option value="2026">2026</option>
-              <option value="2025">2025</option>
-              <option value="2024" selected>2024</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="board">বোর্ড</label>
-            <select id="board" required>
-              <option value="dhaka">Dhaka</option>
-              <option value="rajshahi">Rajshahi</option>
-              <option value="comilla">Comilla</option>
-              <option value="jessore">Jessore</option>
-              <option value="chittagong">Chittagong</option>
-              <option value="barisal">Barisal</option>
-              <option value="sylhet">Sylhet</option>
-              <option value="dinajpur">Dinajpur</option>
-              <option value="mymensingh">Mymensingh</option>
-              <option value="madrasah">Madrasah</option>
-              <option value="tec">Technical</option>
-            </select>
-          </div>
-          <div class="field">
-            <label for="roll">রোল নম্বর</label>
-            <input id="roll" type="number" placeholder="যেমন: 123456" required>
-          </div>
-          <div class="field">
-            <label for="reg">রেজিস্ট্রেশন নম্বর</label>
-            <input id="reg" type="number" placeholder="যেমন: 1234567890">
-          </div>
-        </div>
-        <div class="form-actions">
-          <button class="btn" type="submit" id="submitBtn">
-            <span class="spinner"></span>
-            <span class="label">ফলাফল খুঁজুন</span>
-          </button>
-        </div>
-      </form>
+  <div class="form-body">
+    <div class="instruction">
+      ফলাফল দেখতে অনুগ্রহ করে নিচের তথ্যগুলো প্রদান করুন
     </div>
 
-    <div class="glass result" id="result-area"></div>
-  </section>
-  
-  <footer style="text-align: center; padding: 30px; margin-top: 40px; color: var(--muted); font-size: 0.9rem;">
-    <p>এটি একটি স্বতন্ত্র ফলাফল-সহায়ক প্ল্যাটফর্ম। এটি কোনো সরকারি ওয়েবসাইট নয়।</p>
-  </footer>
-</main>
+    <div class="form-group">
+      <label>বোর্ডের নাম</label>
+      <select>
+        <option>নির্বাচন করুন</option>
+        <option>ঢাকা</option>
+        <option>রাজশাহী</option>
+        <option>কুমিল্লা</option>
+        <option>যশোর</option>
+        <option>চট্টগ্রাম</option>
+        <option>বরিশাল</option>
+        <option>সিলেট</option>
+        <option>দিনাজপুর</option>
+        <option>ময়মনসিংহ</option>
+        <option>মাদ্রাসা</option>
+        <option>কারিগরি</option>
+      </select>
+    </div>
 
-<script>
-(function () {
-  "use strict";
+    <div class="form-group">
+      <label>পরীক্ষার নাম</label>
+      <select>
+        <option>নির্বাচন করুন</option>
+        <option>এইচএসসি/আলিম/সমমান</option>
+        <option>এসএসসি/দাখিল/সমমান</option>
+        <option>জেএসসি/জেডিসি</option>
+      </select>
+    </div>
 
-  // তোমার গিটহাবের রিমোট কনফিগ লিংক এখানে অ্যাড করা হয়েছে 
-  const REMOTE_CONFIG_URL = "https://raw.githubusercontent.com/ashikkhan9/all-results-/refs/heads/main/config.json";
+    <div class="form-group">
+      <label>পরীক্ষার বছর</label>
+      <select>
+        <option>নির্বাচন করুন</option>
+        <option>২০২৪</option>
+        <option>২০২৩</option>
+        <option>২০২২</option>
+        <option>২০২১</option>
+      </select>
+    </div>
 
-  let APP_CONFIG = {
-    mode: "api",
-    target_url: "http://www.educationboardresults.gov.bd/result.php", 
-    proxy_url: "https://corsproxy.io/?url=", 
-    selector: "table", 
-    alert_message: "" 
-  };
+    <div class="form-group">
+      <label class="red-text">ফলাফলের ধরন</label>
+      <select>
+        <option>নির্বাচন করুন</option>
+        <option>ব্যক্তিগত ফলাফল</option>
+        <option>প্রতিষ্ঠানভিত্তিক ফলাফল</option>
+      </select>
+    </div>
+  </div>
 
-  async function loadRemoteConfig() {
-    try {
-      // ?v= টাইমস্ট্যাম্প দেওয়া হয়েছে যেন ব্রাউজার ক্যাশ না ধরে রাখে
-      const res = await fetch(REMOTE_CONFIG_URL + "?v=" + new Date().getTime()); 
-      if (res.ok) {
-        const data = await res.json();
-        APP_CONFIG = { ...APP_CONFIG, ...data };
-        
-        if (APP_CONFIG.alert_message) {
-            const alertBox = document.getElementById("dynamic-alert");
-            alertBox.textContent = APP_CONFIG.alert_message;
-            alertBox.style.display = "block";
-        }
-      }
-    } catch(e) { console.log("Using Default Config"); }
-  }
-  loadRemoteConfig();
+  <div class="footer">
+    কারিগরি সহায়তায়: <i>আন্তঃশিক্ষা বোর্ড সমন্বয় কমিটি</i><br>
+    ফলাফল রক্ষণাবেক্ষণ এবং আপডেট: <i>সংশ্লিষ্ট বোর্ড</i><br>
+    © সর্বস্বত্ব সংরক্ষিত
+  </div>
+</div>
 
-  const form = document.getElementById("resultForm");
-  const submitBtn = document.getElementById("submitBtn");
-  const resultArea = document.getElementById("result-area");
-
-  function setLoading(on) {
-    submitBtn.classList.toggle("loading", on);
-    submitBtn.disabled = on;
-    submitBtn.querySelector(".label").textContent = on ? "সার্ভারে খোঁজা হচ্ছে..." : "ফলাফল খুঁজুন";
-  }
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    
-    const data = {
-      exam: document.getElementById("exam").value,
-      year: document.getElementById("year").value,
-      board: document.getElementById("board").value,
-      roll: document.getElementById("roll").value,
-      reg: document.getElementById("reg").value
-    };
-
-    setLoading(true);
-    resultArea.innerHTML = "";
-    resultArea.style.display = "block";
-
-    // --- Iframe মেথড ---
-    if (APP_CONFIG.mode === "iframe") {
-       resultArea.innerHTML = `
-         <div class="banner warn">সার্ভারে অতিরিক্ত চাপের কারণে সরকারি পোর্টালটি সরাসরি নিচে লোড করা হলো। এখানে ফর্ম পূরণ করে ফলাফল দেখুন।</div>
-         <iframe src="${APP_CONFIG.target_url}"></iframe>
-       `;
-       setLoading(false);
-       return;
-    }
-
-    // --- API / Proxy মেথড ---
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 12000); 
-
-    try {
-      const formData = new URLSearchParams();
-      formData.append('exam', data.exam);
-      formData.append('year', data.year);
-      formData.append('board', data.board);
-      formData.append('roll', data.roll);
-      formData.append('reg', data.reg);
-
-      const fetchUrl = APP_CONFIG.proxy_url + encodeURIComponent(APP_CONFIG.target_url);
-
-      const res = await fetch(fetchUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: formData.toString(),
-        signal: controller.signal
-      });
-
-      if (!res.ok) throw new Error("ServerError");
-      
-      const htmlText = await res.text();
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(htmlText, 'text/html');
-      
-      const resultTable = doc.querySelector(APP_CONFIG.selector);
-
-      if (!resultTable) throw new Error("NoData");
-
-      resultArea.innerHTML = `
-        <div class="banner live">✅ ফলাফল সফলভাবে আনা হয়েছে!</div>
-        <div class="fetched-content">${resultTable.outerHTML}</div>
-        <button onclick="window.print()" class="btn" style="margin-top:20px;">প্রিন্ট করুন</button>
-      `;
-
-    } catch (err) {
-      if (err.name === "AbortError" || err.message === "ServerError") {
-        resultArea.innerHTML = `<div class="banner error">⚠️ <b>সরকারি সার্ভার সাময়িকভাবে ডাউন আছে!</b> লাখ লাখ মানুষ একসাথে ট্রাই করায় সার্ভার ক্র্যাশ করেছে। অনুগ্রহ করে ৩-৪ মিনিট পর আবার <b>'ফলাফল খুঁজুন'</b> বাটনে ক্লিক করুন।</div>`;
-      } else {
-        resultArea.innerHTML = `<div class="banner error">❌ রোল বা রেজিস্ট্রেশন ভুল আছে অথবা সরকারি সার্ভার রেজাল্ট দেখাচ্ছে না। আবার চেষ্টা করুন।</div>`;
-      }
-    } finally {
-      clearTimeout(timer);
-      setLoading(false);
-    }
-  });
-
-})();
-</script>
 </body>
 </html>
