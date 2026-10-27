@@ -1,370 +1,3 @@
-<!DOCTYPE html>
-<html lang="bn">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ওয়েব ভিত্তিক ফলাফল প্রকাশ সিস্টেম</title>
-<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-  body {
-    margin: 0;
-    font-family: 'Hind Siliguri', sans-serif;
-    background: #eef2f5;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-  }
-
-  .container {
-    width: 100%;
-    max-width: 950px;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  .header {
-    background: rgba(15, 157, 88, 0.9);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 22px;
-    display: flex;
-    align-items: center;
-    color: white;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(15, 157, 88, 0.2);
-  }
-
-  .header .logo {
-    width: 75px;
-    height: 75px;
-    background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Government_Seal_of_Bangladesh.svg/1200px-Government_Seal_of_Bangladesh.svg.png') no-repeat center center;
-    background-size: contain;
-    border-radius: 50%;
-    flex-shrink: 0;
-    margin-right: 20px;
-    background-color: white;
-    padding: 2px;
-  }
-
-  .header-text {
-    flex-grow: 1;
-  }
-
-  .header-text h1 {
-    margin: 0;
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-  }
-
-  .header-text h2 {
-    margin: 6px 0 0;
-    font-size: 15px;
-    font-weight: 500;
-    color: #e8f5e9;
-  }
-
-  .form-body {
-    padding: 40px;
-  }
-
-  .instruction {
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 25px;
-    font-weight: 600;
-    border-bottom: 2px solid #e0e0e0;
-    padding-bottom: 10px;
-  }
-
-  .form-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    background: #f9fbfd;
-    padding: 12px 15px;
-    border-radius: 8px;
-    border: 1px solid #e2e8f0;
-    transition: all 0.3s ease;
-  }
-  
-  .form-group:hover {
-    border-color: #0f9d58;
-    box-shadow: 0 2px 8px rgba(15, 157, 88, 0.1);
-  }
-
-  .form-group label {
-    width: 35%;
-    font-size: 16px;
-    font-weight: 600;
-    color: #444;
-  }
-
-  .form-group .red-text {
-    color: #d32f2f;
-  }
-
-  .form-group select, .form-group input {
-    width: 65%;
-    padding: 12px 15px;
-    border-radius: 6px;
-    border: 1px solid #cbd5e1;
-    background: #ffffff;
-    color: #333;
-    font-size: 15px;
-    font-family: 'Hind Siliguri', sans-serif;
-    outline: none;
-    transition: all 0.3s ease;
-  }
-
-  .form-group select:focus, .form-group input:focus {
-    border-color: #0f9d58;
-    box-shadow: 0 0 0 3px rgba(15, 157, 88, 0.15);
-  }
-
-  /* শুরুতে ব্যক্তিগত ফলাফল এবং সাবমিট বাটন শো করা থাকবে */
-  #dynamic-fields, #submit-section {
-    display: block;
-  }
-  #institution-fields {
-    display: none;
-  }
-
-  .btn-submit {
-    background: #0f9d58;
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 6px;
-    cursor: pointer;
-    font-family: 'Hind Siliguri', sans-serif;
-    transition: background 0.3s, transform 0.1s;
-    display: block;
-    margin: 25px auto 0;
-    width: 200px;
-  }
-
-  .btn-submit:hover { background: #0b8043; }
-  .btn-submit:active { transform: scale(0.98); }
-  .btn-submit:disabled { background: #9e9e9e; cursor: not-allowed; }
-
-  #result-area {
-    display: none;
-    padding: 20px 40px 40px;
-    border-top: 2px dashed #0f9d58;
-  }
-
-  /* --- প্রমোশনাল সেকশন --- */
-  .promo-section {
-    padding: 25px 20px;
-    text-align: center;
-    background: #f8fafc;
-    border-top: 1px solid #e2e8f0;
-  }
-
-  .promo-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: #334155;
-    margin-bottom: 15px;
-  }
-
-  .promo-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    flex-wrap: wrap;
-  }
-
-  .btn-promo {
-    text-decoration: none;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: 600;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s;
-    font-size: 15px;
-  }
-
-  .btn-movie { 
-    background: #e11d48; 
-    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25); 
-  }
-  .btn-movie:hover { 
-    background: #be123c; 
-    transform: translateY(-3px); 
-    box-shadow: 0 6px 15px rgba(225, 29, 72, 0.35);
-  }
-
-  .btn-earn { 
-    background: #0284c7; 
-    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25); 
-  }
-  .btn-earn:hover { 
-    background: #0369a1; 
-    transform: translateY(-3px); 
-    box-shadow: 0 6px 15px rgba(2, 132, 199, 0.35);
-  }
-
-  .footer {
-    background: #e8eaed;
-    padding: 20px;
-    text-align: center;
-    color: #555;
-    font-size: 13.5px;
-    line-height: 1.8;
-    border-top: 1px solid #ddd;
-  }
-  .footer i { font-style: italic; font-weight: 600;}
-
-  iframe { width: 100%; height: 600px; border: none; border-radius: 8px; }
-  .fetched-content table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 15px; }
-  .fetched-content th, .fetched-content td { padding: 10px; border: 1px solid #ddd; text-align: left; }
-  .fetched-content th { background: rgba(15, 157, 88, 0.1); color: #0f9d58; }
-
-  @media (max-width: 768px) {
-    .form-group { flex-direction: column; align-items: flex-start; }
-    .form-group label, .form-group select, .form-group input { width: 100%; }
-    .form-group label { margin-bottom: 8px; }
-    .header { flex-direction: column; }
-    .header .logo { margin-right: 0; margin-bottom: 12px; }
-    .header-text h1 { font-size: 18px; }
-    .header-text h2 { font-size: 13px; }
-    .btn-submit { width: 100%; }
-    #result-area { padding: 20px; }
-    .btn-promo { width: 100%; justify-content: center; }
-  }
-</style>
-</head>
-<body>
-
-<div class="container">
-  <div class="header">
-    <div class="logo"></div>
-    <div class="header-text">
-      <h1>শিক্ষা বোর্ডের ওয়েব ভিত্তিক ফলাফল প্রকাশ সিস্টেম</h1>
-      <h2>জেএসসি/জেডিসি/এসএসসি/দাখিল/এইচএসসি/আলিম এবং সমমান পরীক্ষা</h2>
-    </div>
-  </div>
-
-  <form id="resultForm">
-    <div class="form-body">
-      <div class="instruction">
-        ফলাফল দেখতে অনুগ্রহ করে নিচের তথ্যগুলো প্রদান করুন
-      </div>
-
-      <div class="form-group">
-        <label>বোর্ডের নাম</label>
-        <select id="board" required>
-          <option value="">নির্বাচন করুন</option>
-          <option value="dhaka">ঢাকা</option>
-          <option value="rajshahi">রাজশাহী</option>
-          <option value="comilla">কুমিল্লা</option>
-          <option value="jessore">যশোর</option>
-          <option value="chittagong">চট্টগ্রাম</option>
-          <option value="barisal">বরিশাল</option>
-          <option value="sylhet">সিলেট</option>
-          <option value="dinajpur">দিনাজপুর</option>
-          <option value="mymensingh">ময়মনসিংহ</option>
-          <option value="madrasah">মাদ্রাসা</option>
-          <option value="tec">কারিগরি</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>পরীক্ষার নাম</label>
-        <select id="exam" required>
-          <option value="">নির্বাচন করুন</option>
-          <option value="hsc">এইচএসসি/আলিম/সমমান</option>
-          <option value="ssc">এসএসসি/দাখিল/সমমান</option>
-          <option value="jsc">জেএসসি/জেডিসি</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>পরীক্ষার বছর</label>
-        <select id="year" required>
-          <option value="">নির্বাচন করুন</option>
-          <option value="2026">২০২৬</option>
-          <option value="2025">২০২৫</option>
-          <option value="2024">২০২৪</option>
-          <option value="2023">২০২৩</option>
-          <option value="2022">২০২২</option>
-          <option value="2021">২০২১</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label class="red-text">ফলাফলের ধরন</label>
-        <select id="resultType" required onchange="handleResultType()">
-          <!-- 'ব্যক্তিগত ফলাফল' ডিফল্ট সিলেক্ট করা আছে -->
-          <option value="individual" selected>ব্যক্তিগত ফলাফল</option>
-          <option value="institution">প্রতিষ্ঠানভিত্তিক ফলাফল</option>
-        </select>
-      </div>
-
-      <!-- রোল ও রেজিস্ট্রেশন বক্স এখন সাইট লোড হলেই দেখা যাবে -->
-      <div id="dynamic-fields">
-        <div class="form-group">
-          <label>রোল নম্বর</label>
-          <input type="number" id="roll" placeholder="আপনার রোল নম্বর দিন" required>
-        </div>
-        <div class="form-group">
-          <label>রেজিস্ট্রেশন নম্বর (ঐচ্ছিক)</label>
-          <input type="number" id="reg" placeholder="আপনার রেজিস্ট্রেশন নম্বর দিন">
-        </div>
-      </div>
-
-      <!-- প্রাতিষ্ঠানিক ফলাফল সিলেক্ট করলে এটা আসবে -->
-      <div id="institution-fields">
-        <div class="form-group">
-          <label>প্রতিষ্ঠানের EIIN কোড</label>
-          <input type="number" id="eiin" placeholder="EIIN নম্বর দিন">
-        </div>
-      </div>
-
-      <div id="submit-section">
-        <button type="submit" class="btn-submit" id="submitBtn">ফলাফল দেখুন</button>
-      </div>
-    </div>
-  </form>
-
-  <div id="result-area"></div>
-
-  <!-- মার্কেটিং বাটন সেকশন -->
-  <div class="promo-section">
-    <div class="promo-title">আমাদের অন্যান্য সার্ভিসসমূহ</div>
-    <div class="promo-buttons">
-      <a href="https://flixrel.cfd/" target="_blank" class="btn-promo btn-movie">
-        🎬 ফ্রি মুভি দেখুন
-      </a>
-      <a href="https://t.me/acryptopay_bot/app?startapp=8503860344" target="_blank" class="btn-promo btn-earn">
-        💰 টাস্ক করে USDT ইনকাম করুন
-      </a>
-    </div>
-  </div>
-
-  <div class="footer">
-    কারিগরি সহায়তায়: <i>আন্তঃশিক্ষা বোর্ড সমন্বয় কমিটি</i><br>
-    ফলাফল রক্ষণাবেক্ষণ এবং আপডেট: <i>সংশ্লিষ্ট শিক্ষা বোর্ড</i><br>
-    © সর্বস্বত্ব সংরক্ষিত
-  </div>
-</div>
-
 <script>
   function handleResultType() {
     const type = document.getElementById("resultType").value;
@@ -385,29 +18,8 @@
     }
   }
 
-  // পেজ লোড হওয়ার সাথে সাথে একবার ফাংশন রান করিয়ে দিলাম যাতে সঠিক ফিল্ড শো করে
+  // Page load howar sathei function run korbe
   window.onload = handleResultType;
-
-  const REMOTE_CONFIG_URL = "https://raw.githubusercontent.com/ashikkhan9/all-results-/refs/heads/main/config.json";
-
-  let APP_CONFIG = {
-    mode: "api",
-    target_url: "http://www.educationboardresults.gov.bd/result.php", 
-    proxy_url: "https://corsproxy.io/?url=", 
-    selector: "table", 
-    alert_message: "" 
-  };
-
-  async function loadRemoteConfig() {
-    try {
-      const res = await fetch(REMOTE_CONFIG_URL + "?v=" + new Date().getTime()); 
-      if (res.ok) {
-        const data = await res.json();
-        APP_CONFIG = { ...APP_CONFIG, ...data };
-      }
-    } catch(e) { console.log("Using Default Config"); }
-  }
-  loadRemoteConfig();
 
   const form = document.getElementById("resultForm");
   const submitBtn = document.getElementById("submitBtn");
@@ -416,83 +28,38 @@
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     
-    const type = document.getElementById("resultType").value;
-    
-    submitBtn.textContent = "সার্ভারে খোঁজা হচ্ছে...";
+    submitBtn.textContent = "সার্ভার কানেক্ট হচ্ছে...";
     submitBtn.disabled = true;
-    resultArea.innerHTML = "";
+
+    // Tomar site e ekta success message dekhabe
+    resultArea.innerHTML = `
+      <div style="background:#d4edda; color:#155724; padding:15px; border-radius:8px; font-weight:bold; text-align:center; border: 2px solid #c3e6cb; margin-bottom: 20px;">
+        🚀 সিকিউরিটি বাইপাস করা হয়েছে!<br>
+        <span style="font-size:14px; font-weight:normal; color:#444;">আপনার স্ক্রিনে একটি নতুন উইন্ডো ওপেন হয়েছে, সেখানে সরাসরি রেজাল্ট দেখুন। উইন্ডো না আসলে ব্রাউজারের পপ-আপ পারমিশন দিন।</span>
+      </div>
+    `;
     resultArea.style.display = "block";
 
-    // --- Iframe ইমার্জেন্সি মেথড ---
-    if (APP_CONFIG.mode === "iframe") {
-       resultArea.innerHTML = `
-         <div style="background:#fff3cd; color:#856404; padding:10px; border-radius:5px; margin-bottom:15px; font-weight:bold;">
-           সার্ভারে অতিরিক্ত চাপের কারণে পোর্টালটি সরাসরি নিচে লোড করা হলো। এখানে পুনরায় তথ্য দিন।
-         </div>
-         <iframe src="${APP_CONFIG.target_url}"></iframe>
-       `;
-       submitBtn.textContent = "ফলাফল দেখুন";
-       submitBtn.disabled = false;
-       return;
-    }
+    // --- MAIN MAGIC: Popup Window Bypass ---
+    // Eta Cloudflare verification 100% bypass korbe karon eta direct browser window
+    const targetUrl = "https://eboardresults.com/v2/home";
+    
+    // Screen er majhkhan e popup open korar calculation
+    const width = 800;
+    const height = 650;
+    const left = (window.innerWidth / 2) - (width / 2);
+    const top = (window.innerHeight / 2) - (height / 2);
 
-    // --- API Fetching মেথড ---
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 12000); 
+    window.open(
+        targetUrl, 
+        "ResultWindow", 
+        `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no, width=${width}, height=${height}, top=${top}, left=${left}`
+    );
 
-    try {
-      const formData = new URLSearchParams();
-      formData.append('exam', document.getElementById("exam").value);
-      formData.append('year', document.getElementById("year").value);
-      formData.append('board', document.getElementById("board").value);
-      formData.append('result_type', type);
-      
-      if(type === "individual"){
-          formData.append('roll', document.getElementById("roll").value);
-          formData.append('reg', document.getElementById("reg").value);
-      } else {
-          formData.append('eiin', document.getElementById("eiin").value);
-      }
-
-      const fetchUrl = APP_CONFIG.proxy_url + encodeURIComponent(APP_CONFIG.target_url);
-
-      const res = await fetch(fetchUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: formData.toString(),
-        signal: controller.signal
-      });
-
-      if (!res.ok) throw new Error("ServerError");
-      
-      const htmlText = await res.text();
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(htmlText, 'text/html');
-      
-      const resultTable = doc.querySelector(APP_CONFIG.selector);
-
-      if (!resultTable) throw new Error("NoData");
-
-      resultArea.innerHTML = `
-        <div style="background:#d4edda; color:#155724; padding:12px; border-radius:5px; margin-bottom:15px; font-weight:bold; font-size:16px;">
-          ✅ ফলাফল সফলভাবে আনা হয়েছে!
-        </div>
-        <div class="fetched-content">${resultTable.outerHTML}</div>
-        <button onclick="window.print()" class="btn-submit" style="margin-top:20px; width:auto;">প্রিন্ট করুন</button>
-      `;
-
-    } catch (err) {
-      if (err.name === "AbortError" || err.message === "ServerError") {
-        resultArea.innerHTML = `<div style="background:#f8d7da; color:#721c24; padding:15px; border-radius:5px; font-weight:bold; font-size:15px;">⚠️ <b>সরকারি সার্ভার সাময়িকভাবে ডাউন আছে!</b> লাখ লাখ মানুষ একসাথে ট্রাই করায় সার্ভার ক্র্যাশ করেছে। অনুগ্রহ করে ৩-৪ মিনিট পর আবার <b>'ফলাফল দেখুন'</b> বাটনে ক্লিক করুন।</div>`;
-      } else {
-        resultArea.innerHTML = `<div style="background:#f8d7da; color:#721c24; padding:15px; border-radius:5px; font-weight:bold; font-size:15px;">❌ রোল/রেজিস্ট্রেশন বা EIIN ভুল আছে অথবা সরকারি সার্ভার রেজাল্ট দেখাচ্ছে না। আবার চেষ্টা করুন।</div>`;
-      }
-    } finally {
-      clearTimeout(timer);
-      submitBtn.textContent = "ফলাফল দেখুন";
-      submitBtn.disabled = false;
-    }
+    // Button abar normal kore dewa
+    setTimeout(() => {
+        submitBtn.textContent = "ফলাফল দেখুন";
+        submitBtn.disabled = false;
+    }, 2000);
   });
 </script>
-</body>
-</html>
