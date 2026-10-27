@@ -1,7 +1,7 @@
 {
-  "mode": "iframe", 
-  "target_url": "http://www.educationboardresults.gov.bd/result.php",
-  "proxy_url": "https://my-proxy.workers.dev/?url=",
+  "mode": "iframe",
+  "target_url": "https://eboardresults.com/v2/home",
+  "proxy_url": "https://corsproxy.io/?url=",
   "selector": "table",
   "alert_message": ""
 }
