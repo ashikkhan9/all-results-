@@ -1,5 +1,5 @@
 {
-  "mode": "api", 
+  "mode": "iframe", 
   "target_url": "http://www.educationboardresults.gov.bd/result.php",
   "proxy_url": "https://my-proxy.workers.dev/?url=",
   "selector": "table",
